@@ -186,6 +186,37 @@ body {
   scrollbar-width: none;
 }
 
+.font-script {
+  font-family: var(--font-dancing), "Brush Script MT", cursive;
+}
+
+@keyframes draw-name {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ink-fill {
+  to {
+    fill-opacity: 1;
+  }
+}
+
+@keyframes ink-dot {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
