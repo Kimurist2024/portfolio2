@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import signature from "@/data/signature.json";
 
 const WRITE_MS = 2200;
-const HOLD_MS = 700;
+const HOLD_MS = 1100;
 
 const padding = 28;
 const bb = signature.bbox;
@@ -96,7 +96,7 @@ export function Intro() {
               <path
                 ref={pathRef}
                 d={signature.d}
-                fill="none"
+                fill="var(--color-accent)"
                 stroke="var(--color-accent)"
                 strokeWidth={2.6}
                 strokeLinecap="round"
@@ -104,6 +104,8 @@ export function Intro() {
                 style={{
                   strokeDasharray: pathLength || 1,
                   strokeDashoffset: pathLength ? dashOffset : pathLength || 1,
+                  fillOpacity: done ? 1 : 0,
+                  transition: "fill-opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
               />
               {!done && pathLength > 0 && (
