@@ -1,5 +1,5 @@
-// Build-time generator: extracts an SVG path for the signature glyph
-// from the Dancing Script font (OFL) and writes it as JSON so the
+// Build-time generator: extracts per-glyph SVG paths for the signature
+// from the Dancing Script font (OFL) and writes them as JSON so the
 // browser doesn't need to fetch or parse a font file at runtime.
 
 import { createRequire } from "module";
@@ -30,18 +30,44 @@ async function main() {
     ttf.byteOffset + ttf.byteLength,
   );
   const font = opentype.parse(buf);
-  const p = font.getPath(TEXT, 0, 0, FONT_SIZE);
-  const bb = p.getBoundingBox();
+
+  // 全文字を一括レイアウト (kerning 反映) し、各 glyph の path を個別に取得。
+  const layoutPaths = font.getPaths(TEXT, 0, 0, FONT_SIZE);
+  const glyphs = layoutPaths.map((p, i) => {
+    const bb = p.getBoundingBox();
+    return {
+      char: TEXT[i],
+      d: p.toPathData(2),
+      bbox: { x1: bb.x1, y1: bb.y1, x2: bb.x2, y2: bb.y2 },
+    };
+  });
+
+  const totalBbox = glyphs.reduce(
+    (acc, g) => ({
+      x1: Math.min(acc.x1, g.bbox.x1),
+      y1: Math.min(acc.y1, g.bbox.y1),
+      x2: Math.max(acc.x2, g.bbox.x2),
+      y2: Math.max(acc.y2, g.bbox.y2),
+    }),
+    {
+      x1: Infinity,
+      y1: Infinity,
+      x2: -Infinity,
+      y2: -Infinity,
+    },
+  );
+
   const payload = {
     text: TEXT,
     fontSize: FONT_SIZE,
-    d: p.toPathData(2),
-    bbox: { x1: bb.x1, y1: bb.y1, x2: bb.x2, y2: bb.y2 },
+    totalBbox,
+    glyphs,
   };
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(payload, null, 2) + "\n");
   console.log(
-    `wrote ${path.relative(ROOT, OUT)} (${payload.d.length} chars of path data)`,
+    `wrote ${path.relative(ROOT, OUT)} — ${glyphs.length} glyphs, ` +
+      `${glyphs.reduce((s, g) => s + g.d.length, 0)} total path chars`,
   );
 }
 

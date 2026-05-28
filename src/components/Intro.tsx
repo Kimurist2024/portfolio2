@@ -4,25 +4,36 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import signature from "@/data/signature.json";
 
-const WRITE_MS = 2200;
-const HOLD_MS = 1100;
+const WRITE_MS = 2400;
+const HOLD_MS = 900;
+const STROKE_WIDTH = 20;
 
 const padding = 28;
-const bb = signature.bbox;
-const viewBox = `${bb.x1 - padding} ${bb.y1 - padding} ${
-  bb.x2 - bb.x1 + padding * 2
-} ${bb.y2 - bb.y1 + padding * 2}`;
+const tb = signature.totalBbox;
+const viewBox = `${tb.x1 - padding} ${tb.y1 - padding} ${
+  tb.x2 - tb.x1 + padding * 2
+} ${tb.y2 - tb.y1 + padding * 2}`;
+
+const glyphs = signature.glyphs;
+const N = glyphs.length;
+const charDuration = 1 / N;
 
 export function Intro() {
   const [show, setShow] = useState(true);
-  const [pathLength, setPathLength] = useState(0);
+  const [lengths, setLengths] = useState<number[]>(() =>
+    Array(N).fill(0),
+  );
   const [progress, setProgress] = useState(0);
-  const pathRef = useRef<SVGPathElement>(null);
+  const pathRefs = useRef<(SVGPathElement | null)[]>(Array(N).fill(null));
 
   useEffect(() => {
-    if (!pathRef.current) return;
-    const len = pathRef.current.getTotalLength();
-    setPathLength(len);
+    const lens = pathRefs.current.map((p) => p?.getTotalLength() ?? 0);
+    if (lens.every((l) => l === 0)) return;
+    setLengths(lens);
+  }, []);
+
+  useEffect(() => {
+    if (lengths.every((l) => l === 0)) return;
     let raf = 0;
     const start = performance.now();
     const tick = (t: number) => {
@@ -33,7 +44,7 @@ export function Intro() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [lengths]);
 
   useEffect(() => {
     if (progress < 1) return;
@@ -49,16 +60,46 @@ export function Intro() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  function glyphProgress(i: number): number {
+    return Math.max(
+      0,
+      Math.min(1, (progress - i * charDuration) / charDuration),
+    );
+  }
+
+  let activeIdx = -1;
+  for (let i = 0; i < N; i++) {
+    const gp = glyphProgress(i);
+    if (gp > 0 && gp < 1) {
+      activeIdx = i;
+      break;
+    }
+  }
+  if (activeIdx === -1 && progress > 0 && progress < 1) {
+    for (let i = N - 1; i >= 0; i--) {
+      if (glyphProgress(i) > 0) {
+        activeIdx = i;
+        break;
+      }
+    }
+  }
+
   let penX = 0;
   let penY = 0;
-  if (pathRef.current && pathLength > 0 && progress < 1) {
-    const pt = pathRef.current.getPointAtLength(pathLength * progress);
+  if (
+    activeIdx >= 0 &&
+    pathRefs.current[activeIdx] &&
+    lengths[activeIdx] > 0
+  ) {
+    const gp = glyphProgress(activeIdx);
+    const pt = pathRefs.current[activeIdx]!.getPointAtLength(
+      lengths[activeIdx] * gp,
+    );
     penX = pt.x;
     penY = pt.y;
   }
 
-  const dashOffset = pathLength * (1 - progress);
-  const done = progress >= 0.98;
+  const done = progress >= 1;
 
   return (
     <AnimatePresence>
@@ -93,23 +134,31 @@ export function Intro() {
               preserveAspectRatio="xMidYMid meet"
               style={{ overflow: "visible" }}
             >
-              <path
-                ref={pathRef}
-                d={signature.d}
-                fill="none"
-                stroke="var(--color-accent)"
-                strokeWidth={20}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{
-                  strokeDasharray: pathLength || 99999,
-                  strokeDashoffset: pathLength
-                    ? dashOffset
-                    : 99999,
-                }}
-              />
+              {glyphs.map((g, i) => {
+                const len = lengths[i];
+                const gp = glyphProgress(i);
+                const off = len * (1 - gp);
+                return (
+                  <path
+                    key={i}
+                    ref={(el) => {
+                      pathRefs.current[i] = el;
+                    }}
+                    d={g.d}
+                    fill="none"
+                    stroke="var(--color-accent)"
+                    strokeWidth={STROKE_WIDTH}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      strokeDasharray: len || 99999,
+                      strokeDashoffset: len ? off : 99999,
+                    }}
+                  />
+                );
+              })}
 
-              {!done && pathLength > 0 && (
+              {!done && activeIdx >= 0 && lengths[activeIdx] > 0 && (
                 <g style={{ pointerEvents: "none" }}>
                   <circle
                     cx={penX}
