@@ -5,7 +5,7 @@ import { profile } from "@/data/profile";
 
 export function Footer() {
   return (
-    <footer className="relative px-6 lg:px-12 py-12 border-t border-white/5">
+    <footer className="relative px-6 lg:px-12 py-12 border-t border-black/10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
         <div className="lg:col-span-7">
           <motion.h3
@@ -31,9 +31,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--color-text-dim)]">
+      <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-black/10 pt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--color-text-dim)]">
         <p>v1.0 · Last updated 2026.05</p>
-        <a href="#top" className="hover:text-[var(--color-accent-glow)] transition-colors">
+        <a href="#top" className="hover:text-[var(--color-accent)] transition-colors">
           ↑ Back to top
         </a>
       </div>

@@ -29,7 +29,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative px-6 lg:px-12 py-[var(--space-section)] border-t border-white/5 overflow-hidden"
+      className="relative px-6 lg:px-12 py-[var(--space-section)] border-t border-black/10 overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[var(--color-accent-deep)]/15 blur-[140px]" />
@@ -42,7 +42,7 @@ export function Contact() {
           <div className="lg:col-span-7">
             <h2 className="font-display text-[clamp(2.5rem,1.5rem+6vw,7rem)] leading-[0.9]">
               <SplitLine>
-                <span className="block text-white">Let&rsquo;s</span>
+                <span className="block text-[var(--color-text)]">Let&rsquo;s</span>
               </SplitLine>
               <SplitLine delay={0.1}>
                 <span className="block italic font-light text-[var(--color-text-muted)]">
@@ -65,13 +65,13 @@ export function Contact() {
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
               whileHover={{ scale: 1.02 }}
-              className="group mt-10 inline-flex items-center gap-4 rounded-full border border-white/15 bg-white/[0.03] px-6 py-4 text-white transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/10"
+              className="group mt-10 inline-flex items-center gap-4 rounded-full border border-black/15 bg-black/[0.03] px-6 py-4 text-[var(--color-text)] transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/10"
             >
-              <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] group-hover:text-white">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] group-hover:text-[var(--color-text)]">
                 Say hello
               </span>
               <span className="font-display text-xl">{profile.email}</span>
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--color-accent)] text-[var(--color-bg)] transition-transform group-hover:rotate-45">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--color-accent)] text-white transition-transform group-hover:rotate-45">
                 <svg
                   className="h-3.5 w-3.5"
                   viewBox="0 0 12 12"
@@ -99,7 +99,7 @@ export function Contact() {
                     href={l.href}
                     target={l.href.startsWith("http") || l.href.startsWith("/") ? "_blank" : undefined}
                     rel="noreferrer"
-                    className="group flex items-center justify-between gap-4 border-b border-white/10 py-5 transition-all hover:pl-2"
+                    className="group flex items-center justify-between gap-4 border-b border-black/10 py-5 transition-all hover:pl-2"
                   >
                     <div className="flex items-baseline gap-4">
                       <Icon kind={l.icon} />
@@ -108,7 +108,7 @@ export function Contact() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-white transition-colors group-hover:text-[var(--color-accent-glow)]">
+                      <span className="text-[var(--color-text)] transition-colors group-hover:text-[var(--color-accent)]">
                         {l.value}
                       </span>
                       <span className="text-[var(--color-text-dim)] transition-transform group-hover:translate-x-1 group-hover:text-[var(--color-accent)]">
@@ -188,7 +188,7 @@ function SectionLabel({ index, label }: { index: string; label: string }) {
     >
       <span className="block h-px w-12 bg-[var(--color-accent)]" />
       <span className="text-[var(--color-text-dim)]">{index}</span>
-      <span className="text-white">/ {label}</span>
+      <span className="text-[var(--color-text)]">/ {label}</span>
     </motion.div>
   );
 }

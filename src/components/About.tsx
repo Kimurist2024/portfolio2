@@ -20,7 +20,7 @@ export function About() {
           className="lg:col-span-5 lg:sticky lg:top-32 self-start"
         >
           <h2 className="font-display text-[var(--text-display)] leading-[0.9]">
-            <span className="block text-white">問題は</span>
+            <span className="block text-[var(--color-text)]">問題は</span>
             <span className="block italic font-light text-[var(--color-text-muted)]">
               現実世界に
             </span>
@@ -57,24 +57,24 @@ export function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.9, delay: i * 0.1 }}
-                  className="group relative border-l border-white/10 pl-8 transition-colors hover:border-[var(--color-accent)]/50"
+                  className="group relative border-l border-black/15 pl-8 transition-colors hover:border-[var(--color-accent)]/60"
                 >
                   <span
                     className={`absolute -left-[5px] top-1 block h-2.5 w-2.5 rounded-full ${
                       exp.current
                         ? "bg-[var(--color-accent)] pulse-glow"
-                        : "bg-white/30"
+                        : "bg-black/30"
                     }`}
                   />
                   <header className="flex flex-wrap items-baseline justify-between gap-3">
-                    <h3 className="font-display text-2xl text-white">
+                    <h3 className="font-display text-2xl text-[var(--color-text)]">
                       {exp.company}
                     </h3>
                     <span className="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">
                       {exp.period}
                     </span>
                   </header>
-                  <p className="mt-1 text-sm text-[var(--color-accent-glow)] font-mono">
+                  <p className="mt-1 text-sm text-[var(--color-accent)] font-mono">
                     {exp.role}
                   </p>
                   <ul className="mt-5 space-y-2 text-[var(--color-text-muted)] leading-relaxed">
@@ -89,7 +89,7 @@ export function About() {
                     {exp.stack.map((s) => (
                       <span
                         key={s}
-                        className="font-mono text-[10px] uppercase tracking-widest border border-white/10 px-2.5 py-1 text-[var(--color-text-muted)]"
+                        className="font-mono text-[10px] uppercase tracking-widest border border-black/10 px-2.5 py-1 text-[var(--color-text-muted)]"
                       >
                         {s}
                       </span>
@@ -124,7 +124,7 @@ function SectionLabel({ index, label }: { index: string; label: string }) {
     >
       <span className="block h-px w-12 bg-[var(--color-accent)]" />
       <span className="text-[var(--color-text-dim)]">{index}</span>
-      <span className="text-white">/ {label}</span>
+      <span className="text-[var(--color-text)]">/ {label}</span>
     </motion.div>
   );
 }
@@ -139,13 +139,13 @@ function Fact({
   highlight?: boolean;
 }) {
   return (
-    <div className="border-t border-white/10 pt-3">
+    <div className="border-t border-black/10 pt-3">
       <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-dim)]">
         {label}
       </dt>
       <dd
         className={`mt-1 ${
-          highlight ? "text-[var(--color-accent-glow)]" : "text-white"
+          highlight ? "text-[var(--color-accent)]" : "text-[var(--color-text)]"
         }`}
       >
         {value}
@@ -165,8 +165,8 @@ function Block({
 }) {
   return (
     <div>
-      <header className="mb-8 flex items-baseline gap-4 border-b border-white/10 pb-4">
-        <h3 className="font-display text-3xl text-white">{heading}</h3>
+      <header className="mb-8 flex items-baseline gap-4 border-b border-black/10 pb-4">
+        <h3 className="font-display text-3xl text-[var(--color-text)]">{heading}</h3>
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-dim)]">
           — {sub}
         </span>
@@ -192,7 +192,7 @@ function StackRow({ label, items }: { label: string; items: string[] }) {
         {items.map((s) => (
           <span
             key={s}
-            className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-sm text-white/90 transition-all hover:border-[var(--color-accent)]/50 hover:bg-[var(--color-accent)]/10 hover:text-white"
+            className="rounded-full border border-black/10 bg-black/[0.02] px-4 py-1.5 text-sm text-[var(--color-text)] transition-all hover:border-[var(--color-accent)]/60 hover:bg-[var(--color-accent)]/10 hover:text-[var(--color-accent)]"
           >
             {s}
           </span>

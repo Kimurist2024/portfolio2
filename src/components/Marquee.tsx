@@ -24,7 +24,7 @@ export function Marquee() {
   return (
     <div
       ref={ref}
-      className="relative border-y border-white/5 bg-gradient-to-r from-[var(--color-bg)] via-[var(--color-bg-soft)] to-[var(--color-bg)] py-10 overflow-hidden"
+      className="relative border-y border-black/10 bg-gradient-to-r from-[var(--color-bg)] via-[var(--color-bg-soft)] to-[var(--color-bg)] py-10 overflow-hidden"
     >
       <motion.div style={{ x }} className="marquee-track">
         {[...ITEMS, ...ITEMS].map((t, i) => (

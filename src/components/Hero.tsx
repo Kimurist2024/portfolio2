@@ -99,7 +99,7 @@ export function Hero() {
               <span className="italic font-light text-[var(--color-text-muted)]">what</span>
             </SplitLine>
             <SplitLine delay={0.8}>
-              <span className="text-white">others</span>{" "}
+              <span className="text-[var(--color-text)]">others</span>{" "}
               <span className="gradient-text-blue">imagine.</span>
             </SplitLine>
           </motion.h1>
@@ -133,7 +133,7 @@ export function Hero() {
 
             <div className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] text-right">
               <p className="text-[var(--color-text-dim)]">— Currently</p>
-              <p className="text-white">SWE @ Delight Co., Ltd.</p>
+              <p className="text-[var(--color-text)]">SWE @ Delight Co., Ltd.</p>
               <p className="text-[var(--color-text-muted)]">+ Research @ TUS</p>
             </div>
           </motion.div>
