@@ -11,10 +11,10 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const subY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const titleY = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const subY = useTransform(scrollYProgress, [0, 1], [0, -20]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
   const [time, setTime] = useState("");
 
@@ -41,7 +41,7 @@ export function Hero() {
     <section
       id="top"
       ref={containerRef}
-      className="relative h-[120vh] w-full overflow-hidden"
+      className="relative h-[140vh] w-full overflow-hidden"
     >
       <motion.div
         style={{ y: bgY }}
@@ -92,7 +92,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="font-display text-[clamp(3.5rem,2rem+11vw,13rem)] leading-[0.85] tracking-tight"
+            className="font-display text-[clamp(2.75rem,1.5rem+7.5vw,9rem)] leading-[0.95] tracking-tight"
           >
             <SplitLine delay={0.6}>
               <span className="gradient-text">Build</span>{" "}
@@ -109,7 +109,7 @@ export function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 1.4 }}
             style={{ y: subY }}
-            className="mt-10 flex flex-wrap items-end justify-between gap-8"
+            className="mt-16 flex flex-wrap items-end justify-between gap-8"
           >
             <div className="max-w-xl">
               <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-text)]">
