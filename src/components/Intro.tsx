@@ -98,7 +98,7 @@ export function Intro() {
                 d={signature.d}
                 fill="none"
                 stroke="var(--color-accent)"
-                strokeWidth={32}
+                strokeWidth={26}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 style={{
