@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
+import { withBase } from "@/lib/paths";
 
 const LINKS = [
   {
@@ -20,7 +21,7 @@ const LINKS = [
   {
     label: "Resume",
     value: "Download PDF",
-    href: "/resume.pdf",
+    href: withBase("/resume.pdf"),
     icon: "file",
   },
 ];
