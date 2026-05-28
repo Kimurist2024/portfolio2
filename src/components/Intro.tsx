@@ -93,59 +93,71 @@ export function Intro() {
               preserveAspectRatio="xMidYMid meet"
               style={{ overflow: "visible" }}
             >
-              <defs>
-                <mask
-                  id="intro-ink-mask"
-                  maskUnits="userSpaceOnUse"
-                  x={bb.x1 - padding}
-                  y={bb.y1 - padding}
-                  width={bb.x2 - bb.x1 + padding * 2}
-                  height={bb.y2 - bb.y1 + padding * 2}
-                >
-                  <rect
-                    x={bb.x1 - padding}
-                    y={bb.y1 - padding}
-                    width={bb.x2 - bb.x1 + padding * 2}
-                    height={bb.y2 - bb.y1 + padding * 2}
-                    fill="black"
-                  />
+              {/* pathLength 計測用 (透明)。マウント直後の 1 フレームだけ使う */}
+              {pathLength === 0 && (
+                <path
+                  ref={pathRef}
+                  d={signature.d}
+                  fill="none"
+                  stroke="transparent"
+                />
+              )}
+
+              {pathLength > 0 && (
+                <>
+                  <defs>
+                    <mask
+                      id="intro-ink-mask"
+                      maskUnits="userSpaceOnUse"
+                      x={bb.x1 - padding}
+                      y={bb.y1 - padding}
+                      width={bb.x2 - bb.x1 + padding * 2}
+                      height={bb.y2 - bb.y1 + padding * 2}
+                    >
+                      <rect
+                        x={bb.x1 - padding}
+                        y={bb.y1 - padding}
+                        width={bb.x2 - bb.x1 + padding * 2}
+                        height={bb.y2 - bb.y1 + padding * 2}
+                        fill="black"
+                      />
+                      <path
+                        d={signature.d}
+                        fill="none"
+                        stroke="white"
+                        strokeWidth={70}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{
+                          strokeDasharray: pathLength,
+                          strokeDashoffset: dashOffset,
+                        }}
+                      />
+                    </mask>
+                  </defs>
+
                   <path
                     d={signature.d}
+                    fill="var(--color-accent)"
+                    stroke="none"
+                    mask="url(#intro-ink-mask)"
+                  />
+
+                  <path
+                    ref={pathRef}
+                    d={signature.d}
                     fill="none"
-                    stroke="white"
-                    strokeWidth={70}
+                    stroke="var(--color-accent)"
+                    strokeWidth={2.6}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     style={{
-                      strokeDasharray: pathLength || 1,
-                      strokeDashoffset: pathLength
-                        ? dashOffset
-                        : pathLength || 1,
+                      strokeDasharray: pathLength,
+                      strokeDashoffset: dashOffset,
                     }}
                   />
-                </mask>
-              </defs>
-
-              <path
-                d={signature.d}
-                fill="var(--color-accent)"
-                stroke="none"
-                mask="url(#intro-ink-mask)"
-              />
-
-              <path
-                ref={pathRef}
-                d={signature.d}
-                fill="none"
-                stroke="var(--color-accent)"
-                strokeWidth={2.6}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{
-                  strokeDasharray: pathLength || 1,
-                  strokeDashoffset: pathLength ? dashOffset : pathLength || 1,
-                }}
-              />
+                </>
+              )}
 
               {!done && pathLength > 0 && (
                 <g style={{ pointerEvents: "none" }}>
