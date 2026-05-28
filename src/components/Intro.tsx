@@ -1,31 +1,74 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import signature from "@/data/signature.json";
 
-const TOTAL_MS = 2600;
+const WRITE_MS = 2200;
+const HOLD_MS = 700;
+
+const padding = 28;
+const bb = signature.bbox;
+const viewBox = `${bb.x1 - padding} ${bb.y1 - padding} ${
+  bb.x2 - bb.x1 + padding * 2
+} ${bb.y2 - bb.y1 + padding * 2}`;
 
 export function Intro() {
   const [show, setShow] = useState(true);
+  const [pathLength, setPathLength] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const pathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    if (!pathRef.current) return;
+    const len = pathRef.current.getTotalLength();
+    setPathLength(len);
+    let raf = 0;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const elapsed = t - start;
+      const p = Math.min(1, elapsed / WRITE_MS);
+      setProgress(p);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  useEffect(() => {
+    if (progress < 1) return;
+    const t = setTimeout(() => setShow(false), HOLD_MS);
+    return () => clearTimeout(t);
+  }, [progress]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setShow(false);
     };
     window.addEventListener("keydown", onKey);
-    const t = setTimeout(() => setShow(false), TOTAL_MS);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  let penX = 0;
+  let penY = 0;
+  if (pathRef.current && pathLength > 0 && progress < 1) {
+    const pt = pathRef.current.getPointAtLength(pathLength * progress);
+    penX = pt.x;
+    penY = pt.y;
+  }
+
+  const dashOffset = pathLength * (1 - progress);
+  const done = progress >= 0.98;
 
   return (
     <AnimatePresence>
       {show && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }}
+          exit={{
+            opacity: 0,
+            transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+          }}
           className="fixed inset-0 z-[100] grid place-items-center bg-[var(--color-bg)]"
           onClick={() => setShow(false)}
           aria-hidden
@@ -34,57 +77,77 @@ export function Intro() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-[var(--color-accent)]/8 blur-[140px]" />
           </div>
 
-          <div className="relative flex flex-col items-center gap-6">
+          <div className="relative flex flex-col items-center gap-8">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
               className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--color-text-muted)]"
             >
               — Portfolio · 2026 —
             </motion.span>
 
             <svg
-              viewBox="0 0 600 220"
-              className="w-[80vw] max-w-[600px]"
-              role="img"
-              aria-label="Ryuhki signature"
+              viewBox={viewBox}
+              className="w-[80vw] max-w-[720px] h-auto"
+              preserveAspectRatio="xMidYMid meet"
+              style={{ overflow: "visible" }}
             >
-              <text
-                x="50%"
-                y="62%"
-                textAnchor="middle"
-                className="font-script"
+              <path
+                ref={pathRef}
+                d={signature.d}
+                fill="none"
+                stroke="var(--color-accent)"
+                strokeWidth={2.6}
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 style={{
-                  fontSize: "150px",
-                  fontWeight: 700,
-                  fill: "var(--color-accent)",
-                  fillOpacity: 0,
-                  stroke: "var(--color-accent)",
-                  strokeWidth: 1.6,
-                  strokeLinecap: "round",
-                  strokeLinejoin: "round",
-                  strokeDasharray: 3000,
-                  strokeDashoffset: 3000,
-                  animation:
-                    "draw-name 1.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards, ink-fill 0.6s ease 1.7s forwards",
-                  paintOrder: "stroke fill",
+                  strokeDasharray: pathLength || 1,
+                  strokeDashoffset: pathLength ? dashOffset : pathLength || 1,
                 }}
-              >
-                Ryuhki
-              </text>
+              />
+              {!done && pathLength > 0 && (
+                <g style={{ pointerEvents: "none" }}>
+                  <circle
+                    cx={penX}
+                    cy={penY}
+                    r={16}
+                    fill="var(--color-accent)"
+                    opacity={0.18}
+                  />
+                  <circle
+                    cx={penX}
+                    cy={penY}
+                    r={8}
+                    fill="var(--color-accent)"
+                    opacity={0.35}
+                  />
+                  <circle
+                    cx={penX}
+                    cy={penY}
+                    r={4}
+                    fill="var(--color-accent)"
+                  />
+                </g>
+              )}
             </svg>
 
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 1.9, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              animate={{
+                opacity: done ? 1 : 0,
+                scaleX: done ? 1 : 0,
+              }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="h-px w-32 origin-center bg-[var(--color-accent)]/40"
             />
             <motion.span
               initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2.1, duration: 0.5 }}
+              animate={{
+                opacity: done ? 1 : 0,
+                y: done ? 0 : 8,
+              }}
+              transition={{ duration: 0.5 }}
               className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--color-text-dim)]"
             >
               Kimura Ryuki / 木村 竜輝
