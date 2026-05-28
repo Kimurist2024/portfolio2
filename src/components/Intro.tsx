@@ -93,10 +93,50 @@ export function Intro() {
               preserveAspectRatio="xMidYMid meet"
               style={{ overflow: "visible" }}
             >
+              <defs>
+                <mask
+                  id="intro-ink-mask"
+                  maskUnits="userSpaceOnUse"
+                  x={bb.x1 - padding}
+                  y={bb.y1 - padding}
+                  width={bb.x2 - bb.x1 + padding * 2}
+                  height={bb.y2 - bb.y1 + padding * 2}
+                >
+                  <rect
+                    x={bb.x1 - padding}
+                    y={bb.y1 - padding}
+                    width={bb.x2 - bb.x1 + padding * 2}
+                    height={bb.y2 - bb.y1 + padding * 2}
+                    fill="black"
+                  />
+                  <path
+                    d={signature.d}
+                    fill="none"
+                    stroke="white"
+                    strokeWidth={70}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      strokeDasharray: pathLength || 1,
+                      strokeDashoffset: pathLength
+                        ? dashOffset
+                        : pathLength || 1,
+                    }}
+                  />
+                </mask>
+              </defs>
+
+              <path
+                d={signature.d}
+                fill="var(--color-accent)"
+                stroke="none"
+                mask="url(#intro-ink-mask)"
+              />
+
               <path
                 ref={pathRef}
                 d={signature.d}
-                fill="var(--color-accent)"
+                fill="none"
                 stroke="var(--color-accent)"
                 strokeWidth={2.6}
                 strokeLinecap="round"
@@ -104,10 +144,9 @@ export function Intro() {
                 style={{
                   strokeDasharray: pathLength || 1,
                   strokeDashoffset: pathLength ? dashOffset : pathLength || 1,
-                  fillOpacity: done ? 1 : 0,
-                  transition: "fill-opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
               />
+
               {!done && pathLength > 0 && (
                 <g style={{ pointerEvents: "none" }}>
                   <circle
