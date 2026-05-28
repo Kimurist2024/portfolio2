@@ -19,6 +19,18 @@ const LINKS = [
   },
   { label: "X (Twitter)", value: "@dLb7PgqVBXenB2l", href: profile.x, icon: "x" },
   {
+    label: "Zenn",
+    value: "@kimurist",
+    href: profile.zenn,
+    icon: "zenn",
+  },
+  {
+    label: "Qiita",
+    value: "@Kimurist2024",
+    href: profile.qiita,
+    icon: "qiita",
+  },
+  {
     label: "Resume",
     value: "Download PDF",
     href: withBase("/resume.pdf"),
@@ -168,6 +180,19 @@ function Icon({ kind }: { kind: string }) {
     return (
       <svg viewBox="0 0 14 14" className={className} fill="currentColor">
         <path d="M10.5 1.5h2L8.2 6.4l5 6.6h-3.9L6.2 9 2.6 13H.6l4.6-5.3L0 1.5h4l2.8 3.7L10.5 1.5zM9.8 11.7h1.1L4.3 2.7H3.1l6.7 9z" />
+      </svg>
+    );
+  if (kind === "zenn")
+    return (
+      <svg viewBox="0 0 14 14" className={className} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round">
+        <path d="M3 11l4-8 4 8H8L7 9 6 11z" fill="currentColor" />
+      </svg>
+    );
+  if (kind === "qiita")
+    return (
+      <svg viewBox="0 0 14 14" className={className} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+        <circle cx="7" cy="7" r="5" />
+        <path d="M9 9l2.2 2.2" />
       </svg>
     );
   return (

@@ -7,6 +7,8 @@ export const profile = {
   email: "ryuhki2003@gmail.com",
   github: "https://github.com/Kimurist2024",
   x: "https://x.com/dLb7PgqVBXenB2l",
+  zenn: "https://zenn.dev/kimurist",
+  qiita: "https://qiita.com/Kimurist2024",
 } as const;
 
 export const skills = {
