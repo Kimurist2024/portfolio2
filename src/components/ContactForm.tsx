@@ -31,7 +31,8 @@ export function ContactForm() {
     setError("");
 
     try {
-      const res = await fetch("/api/contact", {
+      // Trailing slash matches `trailingSlash: true` and avoids a 308 hop.
+      const res = await fetch("/api/contact/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
