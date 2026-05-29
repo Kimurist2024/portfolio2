@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
 import { withBase } from "@/lib/paths";
+import { ContactForm } from "./ContactForm";
 
 const LINKS = [
   {
@@ -96,6 +97,16 @@ export function Contact() {
                 </svg>
               </span>
             </motion.a>
+
+            <div className="mt-12 flex items-center gap-4">
+              <span className="h-px flex-1 bg-black/10" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--color-text-dim)]">
+                or send a message
+              </span>
+              <span className="h-px flex-1 bg-black/10" />
+            </div>
+
+            <ContactForm />
           </div>
 
           <div className="lg:col-span-5 lg:col-start-8">
