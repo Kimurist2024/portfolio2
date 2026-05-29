@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { profile } from "@/data/profile";
 
 export function Hero() {
@@ -12,30 +12,11 @@ export function Hero() {
   });
 
   const titleY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const subY = useTransform(scrollYProgress, [0, 1], [0, -20]);
+  const metaY = useTransform(scrollYProgress, [0, 1], [0, -20]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const bgY = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      const tokyo = now.toLocaleTimeString("ja-JP", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        timeZone: "Asia/Tokyo",
-        hour12: false,
-      });
-      setTime(tokyo);
-    };
-    update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const tagWords = profile.tagline.split("");
+  const tagChars = profile.tagline.split("");
 
   return (
     <section
@@ -47,9 +28,12 @@ export function Hero() {
         style={{ y: bgY }}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute inset-0 grid-bg opacity-50" />
+        <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="absolute -top-1/4 -right-1/4 h-[800px] w-[800px] rounded-full bg-[var(--color-accent-deep)]/20 blur-[160px] float-slow" />
-        <div className="absolute top-1/2 -left-1/4 h-[600px] w-[600px] rounded-full bg-[var(--color-accent)]/10 blur-[140px] float-slow" style={{ animationDelay: "-6s" }} />
+        <div
+          className="absolute top-1/2 -left-1/4 h-[600px] w-[600px] rounded-full bg-[var(--color-accent)]/10 blur-[140px] float-slow"
+          style={{ animationDelay: "-6s" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-bg)]/30 to-[var(--color-bg)]" />
       </motion.div>
 
@@ -57,108 +41,84 @@ export function Hero() {
 
       <motion.div
         style={{ opacity }}
-        className="sticky top-0 flex h-screen w-full flex-col justify-between px-6 pt-32 pb-8 lg:px-12"
+        className="sticky top-0 flex h-screen w-full flex-col px-6 pt-32 pb-10 lg:px-12"
       >
-        <div className="flex items-start justify-between gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]"
-          >
-            <div className="flex items-center gap-3">
-              <span className="block h-px w-12 bg-[var(--color-accent)]" />
-              <span>Portfolio / 2026 Edition</span>
-            </div>
-            <p className="mt-2 max-w-xs text-[var(--color-text-dim)] tracking-wider">
-              Tokyo University of Science<br />
-              Department of Information &amp; Computer Technology
-            </p>
-          </motion.div>
+        {/* Main — headline + supporting meta, optically centered */}
+        <div className="flex flex-1 flex-col justify-center">
+          <motion.div style={{ y: titleY }}>
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="font-display text-[clamp(2.75rem,1.5rem+7.5vw,9rem)] leading-[0.95] tracking-tight"
+            >
+              <SplitLine delay={0.4}>
+                <span className="gradient-text-blue">Build</span>{" "}
+                <span className="italic font-light text-[var(--color-text-muted)]">
+                  what
+                </span>
+              </SplitLine>
+              <SplitLine delay={0.55}>
+                <span className="text-[var(--color-text)]">others</span>{" "}
+                <span className="gradient-text-blue">imagine.</span>
+              </SplitLine>
+            </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="hidden md:block text-right font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]"
-          >
-            <p>JST {time}</p>
-            <p className="mt-2 text-[var(--color-text-dim)]">N 35.7° / E 139.7°</p>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 1 }}
+              style={{ y: metaY }}
+              className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
+            >
+              <div className="max-w-xl">
+                <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-text)]">
+                  {tagChars.map((c, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1.1 + i * 0.012, duration: 0.4 }}
+                      style={{ display: "inline-block" }}
+                    >
+                      {c === " " ? " " : c}
+                    </motion.span>
+                  ))}
+                </p>
+                <div className="mt-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-[var(--color-text-muted)]">
+                  <span className="block h-2 w-2 rotate-45 bg-[var(--color-accent)]" />
+                  {profile.role}
+                </div>
+              </div>
+
+              <div className="font-mono text-xs uppercase tracking-[0.28em] md:text-right">
+                <p className="text-[var(--color-text-dim)]">Currently</p>
+                <p className="mt-2 text-[var(--color-text)]">
+                  SWE · Delight Co., Ltd.
+                </p>
+                <p className="mt-1 text-[var(--color-text-muted)]">
+                  Research · Tokyo Univ. of Science
+                </p>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
 
-        <motion.div style={{ y: titleY }} className="relative">
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="font-display text-[clamp(2.75rem,1.5rem+7.5vw,9rem)] leading-[0.95] tracking-tight"
-          >
-            <SplitLine delay={0.6}>
-              <span className="gradient-text">Build</span>{" "}
-              <span className="italic font-light text-[var(--color-text-muted)]">what</span>
-            </SplitLine>
-            <SplitLine delay={0.8}>
-              <span className="text-[var(--color-text)]">others</span>{" "}
-              <span className="gradient-text-blue">imagine.</span>
-            </SplitLine>
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 1.4 }}
-            style={{ y: subY }}
-            className="mt-16 flex flex-wrap items-end justify-between gap-8"
-          >
-            <div className="max-w-xl">
-              <p className="text-[var(--text-lead)] leading-relaxed text-[var(--color-text)]">
-                {tagWords.map((c, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.5 + i * 0.015, duration: 0.4 }}
-                    style={{ display: "inline-block" }}
-                  >
-                    {c === " " ? " " : c}
-                  </motion.span>
-                ))}
-              </p>
-              <div className="mt-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-[var(--color-text-muted)]">
-                <span className="block h-2 w-2 rotate-45 bg-[var(--color-accent)]" />
-                {profile.role}
-              </div>
-            </div>
-
-            <div className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)] text-right">
-              <p className="text-[var(--color-text-dim)]">— Currently</p>
-              <p className="text-[var(--color-text)]">SWE @ Delight Co., Ltd.</p>
-              <p className="text-[var(--color-text-muted)]">+ Research @ TUS</p>
-            </div>
-          </motion.div>
-        </motion.div>
-
+        {/* Bottom — single scroll cue */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="flex items-end justify-between gap-4"
+          transition={{ duration: 1, delay: 1.6 }}
+          className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]"
         >
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-[var(--color-text-muted)]">
-            <motion.span
-              animate={{ y: [0, 4, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="inline-block"
-            >
-              ↓
-            </motion.span>
-            <span>Scroll to dive in</span>
-          </div>
-          <div className="hidden sm:block text-right font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--color-text-dim)]">
-            <p>SECTION 00 / HERO</p>
-            <p className="mt-1">{profile.nameJa}</p>
-          </div>
+          <motion.span
+            animate={{ y: [0, 4, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-block"
+          >
+            ↓
+          </motion.span>
+          <span>Scroll to dive in</span>
         </motion.div>
       </motion.div>
     </section>
