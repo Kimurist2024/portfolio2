@@ -25,6 +25,35 @@
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
+/* ── Theme palettes ─────────────────────────────────────────────
+   Default (:root above) is "ocean". Each block swaps only the accent
+   family + a faint bg tint, so gradients/components recolor for free.
+   The active theme is set via data-theme on <html> (see ThemeSwitcher). */
+[data-theme="matcha"] {
+  --color-bg: #f5f7f0;
+  --color-bg-soft: #eaf0e0;
+  --color-accent: #6f9e3f;
+  --color-accent-glow: #8cc15a;
+  --color-accent-deep: #44642a;
+  --color-sky: #c2dd9c;
+}
+[data-theme="rose"] {
+  --color-bg: #f9f6f7;
+  --color-bg-soft: #f3e7ec;
+  --color-accent: #e0467f;
+  --color-accent-glow: #ff6fa3;
+  --color-accent-deep: #8a1f4c;
+  --color-sky: #ffb3cd;
+}
+[data-theme="teal"] {
+  --color-bg: #f1f8f7;
+  --color-bg-soft: #e0f0ee;
+  --color-accent: #0fb3a6;
+  --color-accent-glow: #3fd6c8;
+  --color-accent-deep: #0a6b63;
+  --color-sky: #93e3da;
+}
+
 @theme inline {
   --color-background: var(--color-bg);
   --color-foreground: var(--color-text);
@@ -84,6 +113,10 @@ body {
 .font-mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   letter-spacing: 0.02em;
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
 .gradient-text {
@@ -166,6 +199,18 @@ body {
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.5; transform: scale(1); }
   50% { opacity: 0.9; transform: scale(1.1); }
+}
+
+/* Subtle idle breathing for the avatar (GPU-only, runs while idle). */
+@keyframes avatar-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(-0.6deg); }
+}
+.avatar-float {
+  animation: avatar-float 5.5s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-float { animation: none; }
 }
 
 .pulse-glow {

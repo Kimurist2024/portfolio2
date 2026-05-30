@@ -50,7 +50,7 @@ export function Contact() {
       </div>
 
       <div className="relative">
-        <SectionLabel index="04" label="Contact" />
+        <SectionLabel index="05" label="Contact" />
 
         <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7">
