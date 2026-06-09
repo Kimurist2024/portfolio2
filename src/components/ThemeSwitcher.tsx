@@ -35,11 +35,7 @@ export function ThemeSwitcher() {
   }
 
   return (
-    <div
-      role="group"
-      aria-label="Color theme"
-      className="flex flex-col items-center gap-3 rounded-full border border-[var(--color-border)] bg-[var(--color-card)] px-2 py-3 shadow-[var(--shadow-md)]"
-    >
+    <div role="group" aria-label="Color theme" className="flex flex-col items-center gap-3.5">
       {THEMES.map((t) => {
         const isActive = active === t.id;
         return (
@@ -50,15 +46,15 @@ export function ThemeSwitcher() {
             title={`${t.label} theme`}
             aria-label={`${t.label} theme`}
             aria-pressed={isActive}
-            className="focus-ring grid h-7 w-7 place-items-center rounded-full transition-transform duration-200 hover:scale-110 active:scale-95"
+            className="focus-ring grid h-6 w-6 place-items-center rounded-full transition-transform duration-200 hover:scale-110 active:scale-95"
           >
             <span
-              className="block h-[17px] w-[17px] rounded-full transition-shadow duration-200"
+              className="block h-5 w-5 rounded-full transition-shadow duration-200"
               style={{
                 background: t.color,
                 boxShadow: isActive
-                  ? `0 0 0 2px var(--color-card), 0 0 0 4px ${t.color}`
-                  : "none",
+                  ? `0 0 0 2.5px var(--color-card), 0 0 0 5px ${t.color}, 0 2px 6px rgba(10,14,26,0.25)`
+                  : "0 0 0 2.5px var(--color-card), 0 1px 4px rgba(10,14,26,0.28)",
               }}
             />
           </button>

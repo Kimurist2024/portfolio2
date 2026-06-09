@@ -228,7 +228,7 @@ export function PixelAvatar() {
   return (
     <div
       ref={wrapRef}
-      className="relative mx-auto aspect-[56/67] w-[clamp(160px,44vw,210px)] lg:w-[clamp(220px,19vw,300px)]"
+      className="relative mx-auto aspect-[56/67] w-[clamp(150px,40vw,195px)] lg:w-[clamp(160px,14vw,215px)]"
     >
       <div className="pointer-events-none absolute inset-4 rounded-full bg-[var(--color-accent)]/14 blur-3xl" />
       <div className="pointer-events-none absolute inset-x-8 bottom-2 h-5 rounded-[50%] bg-[rgba(10,14,26,0.22)] blur-md" />

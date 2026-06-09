@@ -21,16 +21,16 @@ const NAV = [
 
 export function SidePanel() {
   return (
-    <aside className="relative flex flex-col gap-8 border-b border-[var(--color-border)] bg-[var(--color-bg-soft)] px-6 py-16 lg:h-screen lg:gap-0 lg:overflow-y-auto lg:border-b-0 lg:border-r lg:px-10 lg:py-12">
+    <aside className="relative flex flex-col gap-8 border-b border-[var(--color-border)] bg-[var(--color-bg-soft)] px-6 py-16 lg:h-screen lg:gap-0 lg:border-b-0 lg:border-r lg:px-10 lg:py-10">
       {/* atmosphere */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 left-1/4 h-[420px] w-[420px] rounded-full bg-[var(--color-accent)]/12 blur-[120px]" />
       </div>
 
-      <div className="relative flex flex-1 flex-col items-center justify-center gap-7 text-center">
+      <div className="relative flex flex-1 flex-col items-center justify-center gap-6 text-center">
         <PixelAvatar />
 
-        <div className="space-y-3.5">
+        <div className="space-y-3">
           <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--color-text-muted)]">
             hi, i&rsquo;m
           </p>
