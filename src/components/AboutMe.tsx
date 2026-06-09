@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { revealProps } from "@/lib/motion";
 import { SectionHeader } from "./SectionHeader";
 
 function Hi({ children }: { children: ReactNode }) {
@@ -28,24 +29,22 @@ const BULLETS: ReactNode[] = [
 ];
 
 export function AboutMe() {
+  const reduce = useReducedMotion();
   return (
     <section
       id="about"
-      className="border-t border-[var(--color-border)] px-6 py-16 lg:px-14 lg:py-20"
+      className="border-t border-[var(--color-border)] px-[var(--gutter)] py-[var(--space-section-inner)]"
     >
-      <SectionHeader index="01" label="About Me" title="About me" />
+      <SectionHeader index="01" label="Background" title="About me" />
 
-      <ul className="mt-10 space-y-5">
+      <ul className="mt-10 max-w-[65ch] space-y-6">
         {BULLETS.map((b, i) => (
           <motion.li
             key={i}
-            initial={{ opacity: 0, x: 16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-            className="flex gap-4 text-[var(--text-lead)] leading-relaxed text-[var(--color-text-muted)]"
+            {...revealProps(reduce, { x: 16, y: 0, duration: 0.5, delay: i * 0.06 })}
+            className="flex gap-4 text-[var(--text-body)] leading-[1.85] text-[var(--color-text-body)]"
           >
-            <span aria-hidden className="mt-1.5 shrink-0 text-[var(--color-accent)]">
+            <span aria-hidden className="mt-[0.45em] shrink-0 text-[var(--color-accent)]">
               ➤
             </span>
             <span>{b}</span>

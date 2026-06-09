@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script, Fraunces } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,29 +12,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const dancingScript = Dancing_Script({
-  variable: "--font-dancing",
-  subsets: ["latin"],
-  weight: ["600", "700"],
-});
-
-// Editorial serif for display headings (the magazine-style section titles).
+// Editorial serif — the single display voice. Loaded as a variable font so
+// every weight 400–600 is available, with the optical-sizing axis on.
 const fraunces = Fraunces({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
+  axes: ["opsz"],
 });
 
+const SITE_URL = "https://portfolio-kimurists-projects.vercel.app";
+const TITLE = "Kimura Ryuki — Software Engineer / AI Researcher";
+const DESCRIPTION =
+  "数理最適化と AI で現実世界の問題を解く、東京理科大学のソフトウェアエンジニア / AI リサーチャー。研究・インターン・コンペティションの記録。";
+
 export const metadata: Metadata = {
-  title: "Kimura Ryuki — Portfolio",
-  description:
-    "Software Engineer / AI Researcher. AI と最適化の境界で、現実世界の問題に挑む。",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
   openGraph: {
-    title: "Kimura Ryuki — Portfolio",
-    description:
-      "Software Engineer / AI Researcher. AI と最適化の境界で、現実世界の問題に挑む。",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
+    url: SITE_URL,
+    siteName: "Kimura Ryuki",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
   },
 };
 
@@ -46,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
         <script

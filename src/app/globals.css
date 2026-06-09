@@ -1,55 +1,98 @@
 @import "tailwindcss";
 
 :root {
+  /* Neutrals & surfaces */
   --color-bg: #f6f7f9;
-  --color-bg-soft: #ecf0f5;
+  --color-bg-soft: #eceff4;
+  --color-card: #ffffff;
   --color-surface: rgba(10, 14, 26, 0.04);
-  --color-surface-strong: rgba(10, 14, 26, 0.08);
+  --color-surface-strong: rgba(10, 14, 26, 0.07);
   --color-border: rgba(10, 14, 26, 0.1);
+  --color-border-strong: rgba(10, 14, 26, 0.16);
+
+  /* Text ladder (all AA on --color-bg) */
   --color-text: #0e1320;
+  --color-text-body: #3a4256;
   --color-text-muted: #5b6477;
-  --color-text-dim: #8c93a3;
+  --color-text-dim: #666d7a;
+
+  /* Accent family (theme-swappable) */
   --color-accent: #1f6feb;
   --color-accent-glow: #4a8cff;
   --color-accent-deep: #0b3a7a;
   --color-sky: #6bb6ff;
 
-  --text-hero: clamp(3.5rem, 2rem + 10vw, 12rem);
-  --text-display: clamp(2.5rem, 1.5rem + 5vw, 6rem);
-  --text-section: clamp(2rem, 1.2rem + 3vw, 4rem);
+  /* Modular type scale */
+  --text-wordmark: clamp(3rem, 2rem + 8vw, 11rem);
+  --text-display: clamp(2.5rem, 1.6rem + 5vw, 6rem);
+  --text-section: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
   --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --text-body: clamp(0.95rem, 0.9rem + 0.2vw, 1rem);
 
+  /* Rhythm */
+  --gutter: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  --space-section-inner: clamp(4rem, 3rem + 4vw, 8rem);
   --space-section: clamp(6rem, 4rem + 8vw, 14rem);
 
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(10, 14, 26, 0.04), 0 1px 1px rgba(10, 14, 26, 0.03);
+  --shadow-md: 0 4px 16px -4px rgba(10, 14, 26, 0.08), 0 2px 4px rgba(10, 14, 26, 0.04);
+  --shadow-lg: 0 16px 40px -12px rgba(10, 14, 26, 0.14);
+
+  /* Motion */
+  --duration-fast: 180ms;
+  --duration-normal: 320ms;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 /* ── Theme palettes ─────────────────────────────────────────────
-   Default (:root above) is "ocean". Each block swaps only the accent
-   family + a faint bg tint, so gradients/components recolor for free.
-   The active theme is set via data-theme on <html> (see ThemeSwitcher). */
+   Default (:root) is "ocean". Each palette swaps the accent family AND
+   tints the neutrals warm/cool so it reads as a distinct atmosphere,
+   not a single recolored dot. Verified for AA on each tinted bg. */
 [data-theme="matcha"] {
   --color-bg: #f5f7f0;
-  --color-bg-soft: #eaf0e0;
-  --color-accent: #6f9e3f;
-  --color-accent-glow: #8cc15a;
-  --color-accent-deep: #44642a;
+  --color-bg-soft: #e9efdf;
+  --color-surface: rgba(40, 52, 24, 0.05);
+  --color-surface-strong: rgba(40, 52, 24, 0.08);
+  --color-border: rgba(40, 52, 24, 0.11);
+  --color-border-strong: rgba(40, 52, 24, 0.17);
+  --color-text-body: #3f4733;
+  --color-text-muted: #56603f;
+  --color-text-dim: #676f52;
+  --color-accent: #5f8a33;
+  --color-accent-glow: #82b14e;
+  --color-accent-deep: #3c5824;
   --color-sky: #c2dd9c;
 }
 [data-theme="rose"] {
   --color-bg: #f9f6f7;
-  --color-bg-soft: #f3e7ec;
-  --color-accent: #e0467f;
-  --color-accent-glow: #ff6fa3;
+  --color-bg-soft: #f2e7ec;
+  --color-surface: rgba(60, 20, 36, 0.05);
+  --color-surface-strong: rgba(60, 20, 36, 0.08);
+  --color-border: rgba(60, 20, 36, 0.11);
+  --color-border-strong: rgba(60, 20, 36, 0.17);
+  --color-text-body: #4a3540;
+  --color-text-muted: #6b4654;
+  --color-text-dim: #7c606e;
+  --color-accent: #d33f78;
+  --color-accent-glow: #f06a9d;
   --color-accent-deep: #8a1f4c;
   --color-sky: #ffb3cd;
 }
 [data-theme="teal"] {
   --color-bg: #f1f8f7;
-  --color-bg-soft: #e0f0ee;
-  --color-accent: #0fb3a6;
-  --color-accent-glow: #3fd6c8;
+  --color-bg-soft: #def0ed;
+  --color-surface: rgba(8, 46, 44, 0.05);
+  --color-surface-strong: rgba(8, 46, 44, 0.08);
+  --color-border: rgba(8, 46, 44, 0.11);
+  --color-border-strong: rgba(8, 46, 44, 0.17);
+  --color-text-body: #2e4744;
+  --color-text-muted: #3f5f5b;
+  --color-text-dim: #51706c;
+  --color-accent: #0a9c91;
+  --color-accent-glow: #2fc4b6;
   --color-accent-deep: #0a6b63;
   --color-sky: #93e3da;
 }
@@ -89,34 +132,51 @@ body {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--color-border-strong);
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
 }
 
-.font-display {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+/* Interaction baseline */
+a,
+button,
+[role="button"],
+input[type="submit"],
+label[for] {
+  cursor: pointer;
+}
+a,
+button {
+  transition-timing-function: var(--ease-out-expo);
+  transition-duration: var(--duration-fast);
+}
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent);
+  border-radius: 10px;
 }
 
+/* Type voices */
+.font-display {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+}
+.font-serif {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-optical-sizing: auto;
+}
 .font-mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   letter-spacing: 0.02em;
-}
-
-.font-serif {
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
 .gradient-text {
@@ -126,7 +186,6 @@ body {
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-
 .gradient-text-blue {
   background: linear-gradient(180deg, var(--color-accent-glow) 0%, var(--color-accent-deep) 100%);
   -webkit-background-clip: text;
@@ -135,70 +194,20 @@ body {
   color: transparent;
 }
 
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(10, 14, 26, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 14, 26, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-}
-
-.noise {
-  position: relative;
-}
-
-.noise::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
+/* One genuinely glowing focal element (theme-aware) */
 .glow {
   box-shadow:
-    0 0 0 1px rgba(31, 111, 235, 0.2),
-    0 0 40px rgba(31, 111, 235, 0.12),
-    0 0 80px rgba(31, 111, 235, 0.06);
-}
-
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.shimmer-line {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer-line::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(10, 14, 26, 0.06),
-    transparent
-  );
-  animation: shimmer 3s infinite;
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(30px, -40px) rotate(2deg); }
-  66% { transform: translate(-20px, 30px) rotate(-1deg); }
-}
-
-.float-slow {
-  animation: float-slow 18s ease-in-out infinite;
+    0 0 0 1px color-mix(in oklab, var(--color-accent) 22%, transparent),
+    0 0 36px color-mix(in oklab, var(--color-accent) 16%, transparent),
+    0 0 72px color-mix(in oklab, var(--color-accent) 8%, transparent);
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.1); }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+.pulse-dot {
+  animation: pulse-glow 2.4s ease-in-out infinite;
 }
 
 /* Subtle idle breathing for the avatar (GPU-only, runs while idle). */
@@ -209,39 +218,12 @@ body {
 .avatar-float {
   animation: avatar-float 5.5s ease-in-out infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .avatar-float { animation: none; }
-}
-
-.pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-
-.marquee-track {
-  display: flex;
-  gap: 4rem;
-  animation: marquee 40s linear infinite;
-  width: max-content;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  scrollbar-width: none;
-}
-
-.font-script {
-  font-family: var(--font-dancing), "Brush Script MT", cursive;
-}
-
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
 
 @media (prefers-reduced-motion: reduce) {
+  .avatar-float,
+  .pulse-dot {
+    animation: none;
+  }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;

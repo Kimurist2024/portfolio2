@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { revealProps } from "@/lib/motion";
 
 interface SectionHeaderProps {
   index: string;
@@ -9,19 +10,15 @@ interface SectionHeaderProps {
 }
 
 export function SectionHeader({ index, label, title }: SectionHeaderProps) {
+  const reduce = useReducedMotion();
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <motion.div {...revealProps(reduce, { y: 20, duration: 0.6 })}>
       <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--color-text-muted)]">
         <span className="h-px w-8 bg-[var(--color-accent)]" />
         <span className="text-[var(--color-text-dim)]">{index}</span>
         <span>{label}</span>
       </div>
-      <h2 className="mt-4 font-serif text-[clamp(2rem,1rem+3.2vw,3.4rem)] font-medium leading-[1.04] tracking-tight text-[var(--color-text)]">
+      <h2 className="mt-5 font-serif text-[var(--text-section)] font-semibold leading-[0.95] tracking-[-0.02em] text-[var(--color-text)]">
         {title}
       </h2>
     </motion.div>

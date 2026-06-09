@@ -11,32 +11,51 @@ const SOCIALS = [
   { label: "Resume", href: withBase("/resume.pdf"), icon: "file" },
 ] as const;
 
+const NAV = [
+  { n: "01", label: "About", href: "#about" },
+  { n: "02", label: "Experience", href: "#experience" },
+  { n: "03", label: "Projects", href: "#projects" },
+  { n: "04", label: "Writing", href: "#writing" },
+  { n: "05", label: "Contact", href: "#contact" },
+] as const;
+
 export function SidePanel() {
   return (
-    <aside className="relative flex flex-col gap-8 border-b border-[var(--color-border)] px-6 py-16 lg:h-screen lg:gap-0 lg:border-b-0 lg:border-r lg:px-10 lg:py-12">
+    <aside className="relative flex flex-col gap-8 border-b border-[var(--color-border)] bg-[var(--color-bg-soft)] px-6 py-16 lg:h-screen lg:gap-0 lg:overflow-y-auto lg:border-b-0 lg:border-r lg:px-10 lg:py-12">
       {/* atmosphere */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 left-1/4 h-[420px] w-[420px] rounded-full bg-[var(--color-accent)]/12 blur-[120px]" />
       </div>
 
-      <div className="relative flex flex-1 flex-col items-center justify-center gap-8 text-center">
+      <div className="relative flex flex-1 flex-col items-center justify-center gap-7 text-center">
         <PixelAvatar />
 
-        <div className="space-y-3">
-          <p className="font-mono text-xs uppercase tracking-[0.35em] text-[var(--color-text-muted)]">
+        <div className="space-y-3.5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--color-text-muted)]">
             hi, i&rsquo;m
           </p>
-          <h1 className="font-display text-[clamp(2rem,1rem+4vw,3.5rem)] leading-[1.05]">
+          <h1 className="font-display text-[var(--text-section)] leading-[1.02]">
             <span className="gradient-text-blue">{profile.name}</span>
           </h1>
           <p className="mx-auto max-w-xs text-[var(--text-lead)] leading-relaxed text-[var(--color-text-muted)]">
             {profile.tagline}
           </p>
-          <div className="inline-flex items-center gap-2.5 pt-1 font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--color-text-muted)]">
+          <p className="flex items-center justify-center gap-2.5 text-sm text-[var(--color-text)]">
             <span className="block h-1.5 w-1.5 rotate-45 bg-[var(--color-accent)]" />
             {profile.role}
+          </p>
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-muted)]">
+            <span className="pulse-dot block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
+            Open to internships
           </div>
         </div>
+
+        <a
+          href="#contact"
+          className="focus-ring inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-5 py-2.5 font-mono text-xs uppercase tracking-[0.25em] text-white shadow-[var(--shadow-sm)] transition-[background-color,transform] duration-300 hover:bg-[var(--color-accent-deep)] active:scale-[0.98]"
+        >
+          Get in touch <span aria-hidden>→</span>
+        </a>
 
         <div className="flex items-center gap-5">
           {SOCIALS.map((s) => (
@@ -46,12 +65,25 @@ export function SidePanel() {
               target={s.href.startsWith("http") || s.href.startsWith("/") ? "_blank" : undefined}
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+              className="focus-ring text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
             >
               <SocialIcon kind={s.icon} />
             </a>
           ))}
         </div>
+
+        <nav aria-label="Sections" className="flex flex-col gap-2.5">
+          {NAV.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="focus-ring flex items-center justify-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+            >
+              <span className="text-[var(--color-text-dim)]">{item.n}</span>
+              <span>{item.label}</span>
+            </a>
+          ))}
+        </nav>
       </div>
 
       {/* Theme dots: on the divider (desktop), at the panel foot (mobile) */}

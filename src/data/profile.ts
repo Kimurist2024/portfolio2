@@ -77,6 +77,8 @@ export type Project = {
   category: "research" | "competition" | "product";
   stack: string[];
   description: string[];
+  /** One-line result/status, surfaced on the card. */
+  outcome: string;
   link?: string;
 };
 
@@ -93,6 +95,7 @@ export const projects: Project[] = [
       "3D Gaussian Splatting で周辺環境を 3 次元復元し、現実空間に即した経路探索を可能にする。",
       "物体検出と 3D 復元を統合し、通行可能領域の推定および最適経路のリアルタイム検出を目指す。",
     ],
+    outcome: "物体検出 × 3D 復元でリアルタイム経路探索を構築中",
   },
   {
     title: "River Agent",
@@ -105,6 +108,7 @@ export const projects: Project[] = [
       "Fine-tuning したローカル LLM(llama2 / Gemma) と API を併用し、コストを抑えつつ安定したクエスト生成を実現。",
       "Fly.io にデプロイ済み。",
     ],
+    outcome: "Fly.io にデプロイ・技育展で発表",
   },
   {
     title: "AI 塗り絵",
@@ -117,6 +121,7 @@ export const projects: Project[] = [
       "トレーディングカードやキーホルダーの作成機能も実装。",
       "教育現場での利用を想定し、管理者向けの生徒アカウント一括生成機能も開発。",
     ],
+    outcome: "対話から塗り絵を自動生成／教育現場向け機能も実装",
   },
   {
     title: "Kaggle Santa 2025",
@@ -128,6 +133,7 @@ export const projects: Project[] = [
       "Kaggle で開催されたクリスマスツリーのパッキング最適化コンペティションに参加。",
       "焼きなまし法、遺伝的アルゴリズム、CMA-ES、動的計画法など多様な最適化手法を実装・比較。",
     ],
+    outcome: "SA・GA・CMA-ES・DP を実装し比較",
   },
   {
     title: "Deep Past Challenge",
@@ -139,6 +145,7 @@ export const projects: Project[] = [
       "Kaggle で開催された古代アッカド語の機械翻訳コンペティションに参加。",
       "ByteT5 トランスフォーマーモデルを用いた翻訳システムを構築。",
     ],
+    outcome: "ByteT5 で古代アッカド語翻訳に挑戦",
   },
   {
     title: "OR 学会データ解析コンペティション",
@@ -151,6 +158,7 @@ export const projects: Project[] = [
       "記号回帰 (PySR) で予測数式モデルを導出し、Random Forest と同等の精度を達成しつつ高い解釈性を実現。",
       "マクローリン展開による項の重要度分析で、ジャンルごとの販売特性の支配要因を定量的に明らかにした。",
     ],
+    outcome: "記号回帰で RF 同等精度＋高い解釈性を実現",
   },
 ];
 

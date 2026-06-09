@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 type Status = "idle" | "submitting" | "success" | "error";
 
 const FIELD_CLASS =
-  "w-full rounded-xl border border-black/15 bg-black/[0.03] px-4 py-3 text-[var(--color-text)] outline-none transition-colors placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-accent)] focus:bg-[var(--color-accent)]/[0.04]";
+  "w-full rounded-xl border border-[var(--color-border-strong)] bg-[var(--color-card)] px-4 py-3 text-[var(--color-text)] shadow-[var(--shadow-sm)] outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-[var(--color-text-dim)] focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[color-mix(in_oklab,var(--color-accent)_30%,transparent)] aria-[invalid=true]:border-red-500/60";
 const LABEL_CLASS =
-  "block font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--color-text-muted)]";
+  "block font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-muted)]";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -113,12 +113,19 @@ export function ContactForm() {
         type="submit"
         disabled={status === "submitting"}
         whileHover={status === "submitting" ? undefined : { scale: 1.02 }}
-        className="group inline-flex items-center gap-3 rounded-full bg-[var(--color-accent)] px-7 py-3.5 text-white transition-all hover:bg-[var(--color-accent-deep)] disabled:cursor-not-allowed disabled:opacity-60"
+        className="focus-ring group inline-flex items-center gap-3 rounded-full bg-[var(--color-accent)] px-7 py-3.5 text-white shadow-[var(--shadow-sm)] transition-[background-color,transform] duration-300 hover:bg-[var(--color-accent-deep)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <span className="font-mono text-xs uppercase tracking-[0.3em]">
+        <span className="font-mono text-xs uppercase tracking-[0.25em]">
           {status === "submitting" ? "Sending…" : "Send message"}
         </span>
-        <span className="transition-transform group-hover:translate-x-1">→</span>
+        {status === "submitting" ? (
+          <svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+            <path className="opacity-90" d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        )}
       </motion.button>
     </form>
   );
