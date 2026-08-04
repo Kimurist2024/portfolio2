@@ -107,9 +107,9 @@
 \entry{NeuroGolf 2026 - 金メダル}{2026 年 6 月 - 2026 年 7 月}
 \begin{pts}
   \item ONNX, ONNX Runtime, Python, NumPy
-  \item ARC-AGI の 400 タスクの変換規則を可能な限り小さい ONNX グラフで再現する Kaggle コンペティションに参加し、金メダルを獲得 (最終スコア 8025.82)。
-  \item 学習済みモデルを用いず、タスク生成器の仕様からゼロパラメータのテンソルプログラムを合成。中間テンソルの dtype 縮小と出力の遅延生成でコストを 2 桁削減した。
-  \item 1 タスク 1 エージェントの自動最適化パイプラインを構築し、新規生成データで完全一致した候補のみを自動採用・自動提出する運用を確立した。
+  \item ARC-AGI の 400 タスクの変換規則を最小の ONNX グラフで再現する Kaggle コンペティションにチームで参加し、2,963 チーム中 10 位・金メダル (最終スコア 8025.82)。
+  \item 最適化方針の策定と検証ゲートの設計を担当。学習させる方針を捨て、生成器の仕様から計算手順を書き下す方針へ転換し、コスト中央値を 15,230 から 124.5 へ削減した。
+  \item 候補群を同一条件で検証する単一の採用経路を実装し、新規生成データでの一致検査を必須化。順位表の実測値とローカル見込み値の差から原因タスクを逆算する診断手順を確立し、採用候補の統合と最終提出物の構築を担当した。
 \end{pts}
 
 \columnbreak
@@ -148,7 +148,7 @@
 \entry{NeuroGolf 2026 Solution}{\link{https://github.com/Kimurist2024/neurogolf-solution}}
 \begin{pts}
   \item ONNX, ONNX Runtime, Python, NumPy
-  \item 金メダル解法一式 (提出物・最適化スクリプト・検証ハーネス) を Apache 2.0 で公開。
+  \item 金メダル解法一式 (提出物・最適化スクリプト・検証ハーネス・手法ドキュメント) を公開。
 \end{pts}
 
 \entry{River Agent}{\link{https://github.com/Kimurist2024}}
