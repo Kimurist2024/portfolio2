@@ -12,6 +12,9 @@ const STATS = [
 
 const AFFILIATIONS = ["東京理科大学", "Delight", "Ollo", "Kaggle", "OR 学会", "技育展"];
 
+/** Single source of truth: the awarded project drives the highlight line. */
+const awarded = projects.find((p) => p.award);
+
 export function CredibilityStrip() {
   const reduce = useReducedMotion();
   return (
@@ -36,7 +39,19 @@ export function CredibilityStrip() {
         ))}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-dim)]">
+      {awarded && (
+        <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-award)]">
+          <span
+            aria-hidden
+            className="h-1.5 w-1.5 rounded-full bg-[var(--color-award)] ring-2 ring-[var(--color-award-surface)]"
+          />
+          {awarded.award}
+          <span className="text-[var(--color-award-border)]">/</span>
+          {awarded.title}
+        </div>
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-dim)]">
         {AFFILIATIONS.map((a, i) => (
           <span key={a} className="flex items-center gap-3">
             {i > 0 && <span className="text-[var(--color-border-strong)]">/</span>}

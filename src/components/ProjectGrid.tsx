@@ -44,6 +44,20 @@ export function ProjectGrid() {
                 </span>
               </div>
 
+              {/* Award gets its own line so the category/period rail stays aligned
+                  across every card in the grid. */}
+              {p.award && (
+                <div className="mt-3.5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-award-border)] bg-[var(--color-award-surface)] px-2.5 py-1 font-mono text-[10px] tracking-wide text-[var(--color-award)]">
+                    <span
+                      aria-hidden
+                      className="h-1.5 w-1.5 rounded-full bg-[var(--color-award)] ring-2 ring-[var(--color-award-surface)]"
+                    />
+                    {p.award}
+                  </span>
+                </div>
+              )}
+
               <h3 className="mt-4 font-serif text-[var(--text-h3)] leading-tight text-[var(--color-text)] transition-colors duration-300 group-hover:text-[var(--color-accent)]">
                 {p.title}
               </h3>
@@ -56,7 +70,9 @@ export function ProjectGrid() {
               </p>
 
               <p className="mt-5 flex items-start gap-2 font-mono text-[11px] leading-snug text-[var(--color-text)]">
-                <span className="text-[var(--color-accent)]">→</span>
+                <span className={p.award ? "text-[var(--color-award)]" : "text-[var(--color-accent)]"}>
+                  →
+                </span>
                 {p.outcome}
               </p>
 

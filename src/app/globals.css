@@ -22,6 +22,12 @@
   --color-accent-deep: #0b3a7a;
   --color-sky: #6bb6ff;
 
+  /* Award — semantic, deliberately NOT theme-swapped.
+     A medal reads gold in every palette; 5.4:1 on --color-card. */
+  --color-award: #8a6412;
+  --color-award-surface: rgba(176, 137, 34, 0.11);
+  --color-award-border: rgba(138, 100, 18, 0.3);
+
   /* Modular type scale */
   --text-wordmark: clamp(3rem, 2rem + 8vw, 11rem);
   --text-display: clamp(2.5rem, 1.6rem + 5vw, 6rem);

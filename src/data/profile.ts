@@ -34,7 +34,7 @@ export const skills = {
     "Flutter",
     "Tailwind CSS",
   ],
-  tools: ["AWS", "GCP", "Docker", "Figma", "Git", "MergeKit", "W&B"],
+  tools: ["AWS", "GCP", "Docker", "Figma", "Git", "MergeKit", "ONNX", "W&B"],
 } as const;
 
 export type Experience = {
@@ -61,7 +61,7 @@ export const experiences: Experience[] = [
   {
     company: "Ollo (AI スタートアップ)",
     role: "機械学習エンジニア (インターン)",
-    period: "2025.03 — 2025.07",
+    period: "2025.03 — 2025.06",
     stack: ["Python", "PyTorch", "VideoMAE", "AVION"],
     bullets: [
       "VideoMAE / AVION(LaViLa + VideoMAE) を用いたマルチラベル動画分類タスクに取り組む。",
@@ -79,23 +79,49 @@ export type Project = {
   description: string[];
   /** One-line result/status, surfaced on the card. */
   outcome: string;
+  /** Short award phrase. Renders as a gold badge and in the highlights strip. */
+  award?: string;
   link?: string;
 };
 
 export const projects: Project[] = [
   {
-    title: "災害避難経路の最適化",
-    subtitle: "Grounding DINO × 3D Gaussian Splatting によるリアルタイム経路探索",
+    title: "NeuroGolf 2026",
+    subtitle: "ARC-AGI の変換規則を最小 ONNX グラフへ圧縮する",
+    period: "2026.06 — 2026.07",
+    category: "competition",
+    stack: ["ONNX", "ONNX Runtime", "Python", "NumPy", "LLM Agents"],
+    description: [
+      "ARC-AGI の 400 タスクそれぞれの変換規則を、できるだけ小さい ONNX グラフとして再現する Kaggle コンペティション。スコアが max(1, 25 − ln(cost)) と対数で効くため、数個単位ではなく桁単位の構造圧縮が要求される。",
+      "学習済みネットワークを捨て、タスクジェネレータの仕様からゼロパラメータのテンソルプログラムをコンパイルする方針に転換。中間テンソルを bool / int8 へ落とし、one-hot 出力をグラフ末尾の Equal で生成することで、コストの支配項だった float32 の中間バッファを消した。",
+      "1 タスク 1 ワーカーの LLM ゴルフ工場を常時稼働させ、ジェネレータから新規生成した入力で全セル一致した候補のみを自動昇格・自動提出するパイプラインを構築。可視例へのフィッティングを構造的に禁止し、非公開ベンチでの 0 点事故を抑えた。",
+      "提出スコアの投影値とのズレからスコア喪失分を逆算して原因タスクを一意に特定する診断法を確立し、二分探索なしで復旧。最終的に中央値コスト 124、400 タスク中 174 件を cost ≤ 100 まで圧縮した。",
+    ],
+    outcome: "最終スコア 8025.82 — 中央値コスト 124 まで圧縮",
+    award: "Kaggle 金メダル",
+    link: "https://github.com/Kimurist2024/neurogolf-solution",
+  },
+  {
+    title: "材質付き三次元再構成",
+    subtitle: "SAM 3 × DMS-46 × 3D Gaussian Splatting による材質分布の蒸留と体積推定",
     period: "Ongoing — 研究",
     category: "research",
-    stack: ["Grounding DINO", "3D Gaussian Splatting", "Python"],
-    description: [
-      "災害発生時の安全な避難経路を自動的に導出することを目的とした研究。",
-      "Grounding DINO により災害現場の画像から障害物や危険箇所をゼロショット検出。",
-      "3D Gaussian Splatting で周辺環境を 3 次元復元し、現実空間に即した経路探索を可能にする。",
-      "物体検出と 3D 復元を統合し、通行可能領域の推定および最適経路のリアルタイム検出を目指す。",
+    stack: [
+      "SAM 3",
+      "DMS-46",
+      "3D Gaussian Splatting",
+      "微分可能レンダリング",
+      "ArUco",
+      "Python",
     ],
-    outcome: "物体検出 × 3D 復元でリアルタイム経路探索を構築中",
+    description: [
+      "SAM 3 が抽出した物体領域ごとに DMS-46 の 46 種類の材質確率を統合し、その材質分布を 3D Gaussian Splatting へ蒸留することで、各 Gaussian が形状だけでなく材質も保持する三次元表現を構築する研究。",
+      "物体領域抽出・材質認識・三次元再構成はそれぞれ独立に発展してきたが、材質情報を形状構築や境界補正に用いる手法は確立されていない。DMS は材質を認識できる一方で物体境界が曖昧になり、SAM は境界を高精度に取れる一方で材質を区別できないためである。",
+      "多視点画像との誤差を微分可能レンダリングで最適化して視点間で一貫した材質情報を保持させ、材質境界と物体境界の不一致を境界補正に利用することで、材質情報を形状の改善へ還元する。",
+      "得られた材質付きモデルをメッシュ化し、材質ごとの体積を推定する。現在は ArUco マーカーで実尺度を補正しているが、材質・物体境界・多視点の幾何情報を統合し、最終的には単眼 RGB 画像のみで高精度な尺度推定を行うことを目指す。",
+      "視点数・遮蔽率・光沢条件・対象の大きさを変化させ、材質認識精度／境界精度／三次元復元精度／体積誤差／処理時間で評価する。既存手法との比較と要素除去実験により各構成要素の有効性を検証し、建築物調査・防災・ロボット環境認識への応用を見据える。",
+    ],
+    outcome: "材質を保持した三次元モデルから、計測機器なしでの体積推定を目指す",
   },
   {
     title: "River Agent",
@@ -185,9 +211,9 @@ export const articles: Article[] = [
     tag: "Systems",
   },
   {
-    title: "Gaussian Splatting を災害対応に転用するという試み",
+    title: "3D Gaussian Splatting に材質情報を持たせる",
     excerpt:
-      "3D 復元の最新手法を、研究室で取り組む避難経路最適化へどう組み込んでいるか。物体検出との接続点を中心に整理する。",
+      "各 Gaussian が形状だけでなく材質を保持する表現をどう作るか。セグメンテーションと材質認識の出力を蒸留するときの設計上の勘所を整理する。",
     date: "2025.11",
     tag: "Research",
   },

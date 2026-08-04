@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "resume": "node scripts/build-resume.mjs",
     "signature": "node scripts/generate-signature.mjs"
   },
   "dependencies": {

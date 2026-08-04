@@ -1,0 +1,170 @@
+% Résumé source for public/resume.pdf
+%
+% Build:  npm run resume   (wraps scripts/build-resume.mjs -> xelatex)
+% Engine: XeLaTeX. Uses macOS system fonts (Hiragino Kaku Gothic ProN,
+%         Helvetica Neue) to match the original typeset document.
+%
+% This file was reconstructed from the shipped PDF — the original source was
+% not in the repository. Keep it as the single source of truth from now on:
+% edit here, run `npm run resume`, commit both .tex and .pdf.
+
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[margin=1.1cm,top=1.0cm,bottom=1.0cm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\setmainfont{Helvetica Neue}[BoldFont={Helvetica Neue Bold}]
+\setCJKmainfont{Hiragino Kaku Gothic ProN W3}[BoldFont={Hiragino Kaku Gothic ProN W6}]
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{14pt}
+\pagestyle{empty}
+
+% ── Section: bold heading with a hairline rule underneath ──────────────
+\titleformat{\section}
+  {\bfseries\fontsize{11.5}{13.5}\selectfont}{}{0pt}{}
+  [\vspace{1.5pt}\hrule height 0.5pt]
+\titlespacing*{\section}{0pt}{9pt}{5pt}
+
+% ── Entry: bold title flush left, date flush right ─────────────────────
+\newcommand{\entry}[2]{%
+  \par\vspace{3.5pt}%
+  \noindent{\bfseries\fontsize{9}{11}\selectfont #1}%
+  \hfill{\fontsize{9}{11}\selectfont #2}\par}
+
+% ── Bullet list: tight, one size below the entry title ─────────────────
+\newenvironment{pts}
+  {\begin{itemize}[leftmargin=10pt,itemsep=0.6pt,parsep=0pt,topsep=1pt,
+                   partopsep=0pt,label=\textbullet]\fontsize{8.5}{10.4}\selectfont}
+  {\end{itemize}}
+
+\newcommand{\link}[1]{\href{#1}{\faLink}}
+
+\begin{document}
+
+% ── Header ────────────────────────────────────────────────────────────
+\begin{center}
+  {\bfseries\fontsize{24}{28}\selectfont 木村竜輝 (Kimura Ryuki)}\\[7pt]
+  {\fontsize{9}{11}\selectfont
+    \faEnvelope\ ryuhki2003@gmail.com \quad|\quad
+    \faGithub\ Kimurist2024\,\link{https://github.com/Kimurist2024} \quad|\quad
+    \textbf{X}\ dLb7PgqVBXenB2l\,\link{https://x.com/dLb7PgqVBXenB2l}}
+\end{center}
+\vspace{4pt}
+
+% ── Full-width sections ───────────────────────────────────────────────
+\section*{スキル}
+{\fontsize{8.5}{11.5}\selectfont
+\textbf{言語:} Python, C, C++, Rust, OCaml, Fortran, Java, JavaScript, TypeScript\\
+\textbf{フレームワーク/ライブラリ:} Django, Firebase, Next.js, PyTorch, React, Spring Boot, FastAPI, Flutter, Tailwind CSS\\
+\textbf{ツール:} AWS, GCP, Docker, Figma, Git, MergeKit, ONNX, W\&B}
+
+\section*{学歴}
+\entry{学士 (情報計算科学) - 3 年在学中}{2024 年 4 月 - 現在}
+{\fontsize{8.5}{10.4}\selectfont 東京理科大学創域理工学部情報計算科学科}
+
+% ── Two-column body ───────────────────────────────────────────────────
+\begin{multicols}{2}
+% Ragged bottoms: without this, multicol stretches the glue in the shorter
+% column and the title-to-bullet spacing drifts between the two columns.
+\raggedcolumns
+
+\section*{インターンシップ}
+
+\entry{Ollo (AI スタートアップ)}{2025 年 3 月 - 2025 年 6 月}
+\begin{pts}
+  \item Python, PyTorch, VideoMAE, AVION (LaViLa + VideoMAE)
+  \item VideoMAE や AVION(映像-言語対照学習と自己教師あり学習を統合した動画学習フレームワーク) を用いたマルチラベル分類タスクに取り組んだ。
+  \item PyTorch によるモデルのファインチューニングを行い、F1 スコアによる定量的な評価でモデル性能を改善した。
+\end{pts}
+
+\entry{株式会社 Delight}{2025 年 8 月 - 現在}
+\begin{pts}
+  \item C++, Fortran
+  \item C++ を用いたメッシュソフトウェアの性能改善に従事。計算量やメモリ効率を意識したパフォーマンス最適化に取り組んでいる。
+  \item Fortran を用いて温度・圧力・電位差が車体の膜付着性に与える影響をシミュレーションし、検証を行った。
+\end{pts}
+
+\section*{研究}
+
+\entry{材質付き三次元再構成}{現在}
+\begin{pts}
+  \item SAM 3, DMS-46, 3D Gaussian Splatting, 微分可能レンダリング, Python
+  \item SAM 3 で抽出した物体領域ごとに DMS-46 の 46 種類の材質確率を統合し、材質分布を 3D Gaussian Splatting へ蒸留することで、各 Gaussian が形状と材質の双方を保持する三次元表現を構築する。
+  \item 多視点画像との誤差を微分可能レンダリングで最適化して視点間の材質一貫性を確保し、材質境界と物体境界の不一致を利用して形状の境界補正を行う。
+  \item 材質付きモデルをメッシュ化し材質ごとの体積を推定する。現在の ArUco マーカーによる尺度補正から、単眼 RGB 画像のみでの尺度推定へ拡張することを目指している。
+  \item 建築物調査・防災・ロボット環境認識への応用を見据え、既存手法との比較および要素除去実験により各構成要素の有効性を検証する。
+\end{pts}
+
+\section*{大会}
+
+\entry{NeuroGolf 2026 - 金メダル}{2026 年 6 月 - 2026 年 7 月}
+\begin{pts}
+  \item ONNX, ONNX Runtime, Python, NumPy
+  \item ARC-AGI の 400 タスクの変換規則を可能な限り小さい ONNX グラフで再現する Kaggle コンペティションに参加し、金メダルを獲得 (最終スコア 8025.82)。
+  \item 学習済みモデルを用いず、タスク生成器の仕様からゼロパラメータのテンソルプログラムを合成。中間テンソルの dtype 縮小と出力の遅延生成でコストを 2 桁削減した。
+  \item 1 タスク 1 エージェントの自動最適化パイプラインを構築し、新規生成データで完全一致した候補のみを自動採用・自動提出する運用を確立した。
+\end{pts}
+
+\columnbreak
+
+\entry{Kaggle Santa 2025}{2025 年 11 月 - 2026 年 1 月}
+\begin{pts}
+  \item Python, C++, Simulated Annealing
+  \item Kaggle で開催されたクリスマスツリーのパッキング最適化コンペティションに参加。
+  \item 焼きなまし法、遺伝的アルゴリズム、CMA-ES、動的計画法など多様な最適化手法を実装・比較した。
+\end{pts}
+
+\entry{Deep Past Challenge (Kaggle)}{2025 年 12 月 - 現在}
+\begin{pts}
+  \item Python, PyTorch, ByteT5
+  \item 4000 年前のアッカド語粘土板の機械翻訳に挑戦する Kaggle コンペティションに参加中。
+  \item ByteT5 トランスフォーマーモデルを用いた翻訳システムを構築している。
+\end{pts}
+
+\entry{OR 学会データ解析コンペティション}{2025 年 10 月 - 現在}
+\begin{pts}
+  \item Python, PySR, Random Forest
+  \item 書店 35 店舗の日別 POS 販売データを用い、ジャンル別の書籍販売数予測に取り組んでいる。
+  \item 記号回帰 (PySR) により予測数式モデルを導出し、Random Forest と同等の精度を達成しつつ高い解釈性を実現した。
+  \item マクローリン展開による項の重要度分析で、ジャンルごとの販売特性の支配要因を定量的に明らかにした。
+\end{pts}
+
+\entry{技育展 (River Agent)}{2025 年 11 月}
+\begin{pts}
+  \item Next.js, Django, Docker, OpenAI, PostgreSQL, W\&B
+  \item 自己成長型 AI エージェント「River Agent」を開発し発表した。AI がユーザのニーズに沿うクエストを生成し、自己成長を支援するアプリケーション。
+  \item Fine-tuning したローカル LLM(llama2, Gemma) と API を併用し、コストを抑えつつ安定したクエスト生成を実現した。
+\end{pts}
+
+\section*{成果物}
+
+\entry{NeuroGolf 2026 Solution}{\link{https://github.com/Kimurist2024/neurogolf-solution}}
+\begin{pts}
+  \item ONNX, ONNX Runtime, Python, NumPy
+  \item 金メダル解法一式 (提出物・最適化スクリプト・検証ハーネス) を Apache 2.0 で公開。
+\end{pts}
+
+\entry{River Agent}{\link{https://github.com/Kimurist2024}}
+\begin{pts}
+  \item Next.js, Django, Docker, OpenAI, PostgreSQL, W\&B
+  \item AI がユーザのニーズに沿うクエストを生成し、自己成長を支援する自己成長型 AI エージェント。
+  \item Fine-tuning したローカル LLM と API の併用でコスト最適化を実現。Fly.io にデプロイ済み。
+\end{pts}
+
+\entry{AI 塗り絵}{\link{https://github.com/Kimurist2024}}
+\begin{pts}
+  \item Flutter, FastAPI, OpenAI (GPT-4o, DALL-E 3), Firebase, Docker
+  \item 子どもが将来の夢を AI キャラクターと対話し、夢に基づいた塗り絵を自動生成する教育アプリ。
+  \item トレーディングカードやキーホルダーの作成機能も実装。教育現場での利用を想定し、管理者向けの生徒アカウント一括生成機能も開発した。
+\end{pts}
+
+\end{multicols}
+
+\end{document}
